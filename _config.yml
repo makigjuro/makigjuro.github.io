@@ -45,7 +45,7 @@ author:
   name:                Marjan Gjuroski 
   email:               maki.gjuroski@gmail.com
   # Used by `jekyll-seo-tag`:
-  # twitter:             <username>
+   twitter:            makigjuro
 
 # This text will appear in a `<small>` tag in the footer of every page.
 copyright:             © 2018. All rights reserved.
@@ -198,8 +198,8 @@ remote_theme: qwtel/hydejack@gem-7.5.0
 #   yandex:              <verification-id>
 
 # Used for Twitter cards
-# twitter:
-#   username:            <twitter handle>
+twitter:
+  username:            makigjuro
 
 # Used for Facebook open graph
 # facebook:
@@ -208,11 +208,11 @@ remote_theme: qwtel/hydejack@gem-7.5.0
 #   admins:              <id>
 
 # Used on index and about sites
-# social:
-#   name:                <firstname> <lastname>
-#   links:
-#     - https://twitter.com/<username>
-#     - https://github.com/<username>
+social:
+  name:               Marjan Gjuroski
+  links:
+    - https://twitter.com/makigjuro
+    - https://github.com/makigjuro
 
 
 # Other Plugins
