@@ -4,8 +4,6 @@ highlighter:      pygments
 
 # Permalinks
 permalink:        pretty
-relative_permalinks: true
-
 # Setup
 title:            Makigjuro's Tech Blog
 tagline:          'Coding Tips and Tricks'
@@ -24,3 +22,5 @@ version:          2.1.0
 
 github:           
   repo:           https://makigjuro.github.io
+
+gem: [jekyll-paginate, jekyll-gists]

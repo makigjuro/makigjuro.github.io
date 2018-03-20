@@ -1,0 +1,32 @@
+# Permalinks
+permalink:           pretty
+
+# Setup
+title:               Makigjuro's Tech Blog
+tagline:             Coding Tips and Tricks
+url:                 https://makigjuro.github.io
+paginate:            1
+baseurl:             ""
+
+# Assets
+#
+# We specify the directory for Jekyll so we can use @imports.
+sass:
+  sass_dir:          _sass
+  style:            :compressed
+
+# About/contact
+author:
+  name:              Marjan Gjuroski
+  url:               https://www.linkedin.com/in/marjan-gjuroski-52295b24/
+  email:             maki.gjuroski@gmail.com
+
+# Custom vars
+version:             2.0.0
+github:
+  repo:              https://github.com/makigjuro
+
+# Gems
+gems:
+  - jekyll-paginate
+  - jekyll-gist
