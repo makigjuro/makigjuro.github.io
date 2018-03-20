@@ -45,7 +45,7 @@ author:
   name:                Marjan Gjuroski 
   email:               maki.gjuroski@gmail.com
   # Used by `jekyll-seo-tag`:
-   twitter:            makigjuro
+  #  twitter:            'makigjuro'
 
 # This text will appear in a `<small>` tag in the footer of every page.
 copyright:             © 2018. All rights reserved.
