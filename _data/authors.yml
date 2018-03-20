@@ -16,7 +16,7 @@ author1:
     Agile software development and scrum methodologies. Willing to take ownership of core components 
     and enthusiastic team player. Software architect specialized in SaaS, multi-tenant apps, MES and ERP systems.
 
-    Currently working on a big cloud-based platform for the Digital Out-of-home advertising industry from Karlsruhe Germany. 
+    Currently working on a big cloud-based platform for the Digital Out-of-home advertising 
   # This photo will be used in the about section.
   picture:
     path:            https://placehold.it/128x128
@@ -28,10 +28,11 @@ author1:
   # Social media icons in sidebar.
   # Comment/uncommet to show/hide. Rearrange to change the order in which they appear.
   social:
+    github:          'makigjuro'
+    linkedin:        'marjan-gjuroski-52295b24'
+    email:           'mailto:maki.gjuroski@gmail.com'
     #twitter:         makigjuro
-    github:          makigjuro
     # download:        https://github.com/qwtel/hydejack-starter-kit/archive/master.zip
-    email:           mailto:maki.gjuroski@gmail.com
     # rss:             https://<url>/feed.xml
     # facebook:        <username>
     # google:          <number>
@@ -60,11 +61,32 @@ author1:
     # npm:             <username>
     # hackernews:      <username>
     # trello:          <firstnamelastname>
-     linkedin:         marjan-gjuroski-52295b24
     # xing:            <firstname_lastname_counter>
     # blogger:         <number>
     # delicious:       <username>
     # stumbleupon:     <username>
     # paypal:          <username>
 
-# Another author
+ # Another author
+author2:
+  name:              <firtname> <lastname>
+  email:             <mail@domain.tld>
+  about:             |
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+    Open `_data/authors.yml` to edit this text.
+  picture:           https://placehold.it/128x128
+  twitter:           <username>
+  github:            <username>
+
+  # Every author can have his/her own accent color and image.
+  # This will change the appearance of all pages of this author.
+  accent_color:      '#268bd2'
+  accent_image:
+    background:      '#202020'
+    overlay:         false
+ 
+
+
