@@ -1,0 +1,35 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={`About · ${SITE_TITLE}`} description="About Marjan Gjuroski" />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>About me</h1>
+			<p>
+				I'm Marjan Gjuroski, a software engineer at Philips, based in Stuttgart, Germany.
+			</p>
+			<p>
+				I mostly work with .NET, React, and Azure. In my spare time I'm building
+				<strong>SignalBeam Edge</strong>, a fleet-management platform for edge and IoT devices.
+			</p>
+			<p>
+				This blog is where I write down what I learn: architecture decisions, tooling, and the
+				occasional bug that took far too long to find.
+			</p>
+			<h2>Find me</h2>
+			<ul>
+				<li><a href="https://github.com/makigjuro">GitHub</a></li>
+			</ul>
+		</main>
+		<Footer />
+	</body>
+</html>

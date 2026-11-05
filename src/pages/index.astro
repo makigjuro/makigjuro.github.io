@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 5);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>Hi, I'm Marjan 👋</h1>
+			<p>
+				I'm a software engineer based in Stuttgart. I write here about .NET, cloud architecture,
+				edge/IoT systems, and the things I learn while building software.
+			</p>
+			<p><a href="/about">More about me →</a></p>
+
+			<h2>Latest posts</h2>
+			{
+				posts.length === 0 ? (
+					<p>No posts yet — check back soon.</p>
+				) : (
+					<ul class="posts">
+						{posts.map((post) => (
+							<li>
+								<a href={`/blog/${post.id}/`}>{post.data.title}</a>
+								<span class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</span>
+							</li>
+						))}
+					</ul>
+				)
+			}
+			<p><a href="/blog">All posts →</a> · <a href="/rss.xml">RSS</a></p>
+		</main>
+		<Footer />
+	</body>
+</html>
+<style>
+	.posts {
+		list-style: none;
+		padding: 0;
+	}
+	.posts li {
+		display: flex;
+		justify-content: space-between;
+		gap: 1em;
+		padding: 0.4em 0;
+		border-bottom: 1px solid rgb(var(--gray-light));
+	}
+	.date {
+		color: rgb(var(--gray));
+		white-space: nowrap;
+	}
+</style>
