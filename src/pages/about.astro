@@ -2,7 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_TITLE } from '../consts';
+import { GITHUB_URL, LINKEDIN_URL, SITE_TITLE } from '../consts';
 ---
 
 <!doctype html>
@@ -13,23 +13,40 @@ import { SITE_TITLE } from '../consts';
 	<body>
 		<Header />
 		<main>
-			<h1>About me</h1>
+			<p class="eyebrow">about</p>
+			<h1>Hi, I'm Marjan<span class="dot">.</span></h1>
 			<p>
-				I'm Marjan Gjuroski, a software engineer at Philips, based in Stuttgart, Germany.
+				I'm Marjan Gjuroski, a software architect based in Stuttgart, Germany.
 			</p>
 			<p>
-				I mostly work with .NET, React, and Azure. In my spare time I'm building
-				<strong>SignalBeam Edge</strong>, a fleet-management platform for edge and IoT devices.
+				I design and build systems across different clouds and technologies: distributed .NET
+				services, event-driven and event-sourced architectures, AI-powered features, edge/IoT
+				platforms, and the infrastructure and CI/CD that keep them running.
 			</p>
 			<p>
-				This blog is where I write down what I learn: architecture decisions, tooling, and the
-				occasional bug that took far too long to find.
+				This blog is my public notebook: practical notes, short tutorials, and explanations of
+				tools and patterns I find useful. Each post aims to be small enough to read over a coffee
+				and concrete enough to try out right away.
+			</p>
+			<p class="note">
+				All opinions are my own. Examples are written from scratch for this blog and are not based
+				on any employer's code or projects.
 			</p>
 			<h2>Find me</h2>
 			<ul>
-				<li><a href="https://github.com/makigjuro">GitHub</a></li>
+				<li><a href={LINKEDIN_URL}>LinkedIn</a></li>
+				<li><a href={GITHUB_URL}>GitHub</a></li>
 			</ul>
 		</main>
 		<Footer />
 	</body>
 </html>
+<style>
+	.dot {
+		color: var(--accent);
+	}
+	.note {
+		font-size: 0.85em;
+		color: rgb(var(--gray));
+	}
+</style>

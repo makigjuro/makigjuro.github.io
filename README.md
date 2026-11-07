@@ -5,6 +5,8 @@ https://makigjuro.github.io by GitHub Actions on every push to `master`.
 
 ## Write a post
 
+For daily posts, copy `templates/daily-post.md` to `src/content/blog/YYYY-MM-DD-short-slug.md` and fill it in.
+
 1. Create `src/content/blog/my-post.md`:
 
    ```md

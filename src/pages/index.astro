@@ -2,13 +2,28 @@
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import PostCard from '../components/PostCard.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
-const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 5);
+const allPosts = (
+	await getCollection('blog', ({ data }) => import.meta.env.DEV || !data.draft)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = allPosts.slice(0, 6);
+
+const topics = [
+	['Cloud & infrastructure', 'Containers, IaC, CI/CD, and getting code to production.'],
+	['AI in practice', 'LLMs and agents in real software: patterns, pitfalls, tooling.'],
+	['Event-driven systems', 'Event sourcing, messaging, projections, with small examples.'],
+	['Architecture', 'Trade-offs and boundaries that keep systems easy to change.'],
+];
+
+const stream = [
+	{ v: 1, type: 'NoteStarted', data: 'topic: "edge"' },
+	{ v: 2, type: 'CodeWritten', data: 'lines: 42' },
+	{ v: 3, type: 'BugFound', data: 'cause: "timezone"' },
+	{ v: 4, type: 'LessonLearned', data: 'shared: true' },
+];
 ---
 
 <!doctype html>
@@ -18,50 +33,307 @@ const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || 
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>Hi, I'm Marjan 👋</h1>
-			<p>
-				I'm a software engineer based in Stuttgart. I write here about .NET, cloud architecture,
-				edge/IoT systems, and the things I learn while building software.
-			</p>
-			<p><a href="/about">More about me →</a></p>
+		<div class="hero-wrap">
+			<section class="hero">
+				<div class="hero-copy">
+					<p class="prompt"><span aria-hidden="true">$</span> tail -f ~/notes/daily.log</p>
+					<h1>Practical notes on building <em>modern software</em>.</h1>
+					<p class="lead">
+						Short tutorials, how-tos, and things worth knowing about cloud platforms, AI,
+						event-driven systems, and software architecture. Learned by doing, written down so you
+						don't have to dig.
+					</p>
+					<div class="actions">
+						<a class="btn primary" href="/blog">Read the notes →</a>
+						<a class="btn" href="/rss.xml">RSS</a>
+					</div>
+				</div>
 
-			<h2>Latest posts</h2>
-			{
-				posts.length === 0 ? (
-					<p>No posts yet — check back soon.</p>
-				) : (
-					<ul class="posts">
-						{posts.map((post) => (
+				<div class="window" aria-hidden="true">
+					<div class="window-bar">
+						<span></span><span></span><span></span>
+						<code>stream: daily-notes</code>
+					</div>
+					<ol class="events">
+						{stream.map((e) => (
 							<li>
-								<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-								<span class="date">
-									<FormattedDate date={post.data.pubDate} />
-								</span>
+								<span class="v">v{e.v}</span>
+								<span class="type">{e.type}</span>
+								<span class="data">{e.data}</span>
 							</li>
 						))}
-					</ul>
-				)
-			}
-			<p><a href="/blog">All posts →</a> · <a href="/rss.xml">RSS</a></p>
+						<li class="next">
+							<span class="v">v5</span>
+							<span class="type">NextPost</span>
+							<span class="data">tomorrow</span>
+						</li>
+					</ol>
+					<div class="projection">
+						<span class="muted">↓ project</span>
+						<pre>{`Blog { posts: ${Math.max(allPosts.length, 1)}, learning: ∞ }`}</pre>
+					</div>
+				</div>
+			</section>
+		</div>
+
+		<main class="wide">
+			<section class="block">
+				<p class="eyebrow">topics</p>
+				<ol class="topics">
+					{topics.map(([title, text], i) => (
+						<li>
+							<span class="num">{String(i + 1).padStart(2, '0')}</span>
+							<div>
+								<h3>{title}</h3>
+								<p>{text}</p>
+							</div>
+						</li>
+					))}
+				</ol>
+			</section>
+
+			<section class="block">
+				<div class="block-head">
+					<p class="eyebrow">latest notes</p>
+					{allPosts.length > 0 && <a class="all" href="/blog">all {allPosts.length} →</a>}
+				</div>
+				{
+					posts.length === 0 ? (
+						<p class="muted">The first post is on its way.</p>
+					) : (
+						<ul class="posts">
+							{posts.map((post) => (
+								<PostCard post={post} />
+							))}
+						</ul>
+					)
+				}
+			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
 <style>
-	.posts {
-		list-style: none;
-		padding: 0;
+	/* Hero with a faint dot grid */
+	.hero-wrap {
+		border-bottom: 1px solid var(--line);
+		background-image: radial-gradient(circle, #d9d6ce 1px, transparent 1.2px);
+		background-size: 22px 22px;
+		background-position: -11px -11px;
 	}
-	.posts li {
+	.hero {
+		display: grid;
+		grid-template-columns: 1.1fr 1fr;
+		gap: 3.5em;
+		align-items: center;
+		max-width: var(--max);
+		margin: 0 auto;
+		padding: 4.5em 16px;
+	}
+	.hero-copy {
+		padding: 1.5em 0;
+		background: radial-gradient(closest-side, var(--surface) 70%, transparent);
+	}
+	.prompt {
+		margin: 0 0 1.2em;
+		font-family: var(--font-mono);
+		font-size: 0.8em;
+		color: var(--muted);
+	}
+	.prompt span {
+		color: var(--accent);
+	}
+	.prompt::after {
+		content: '';
+		display: inline-block;
+		width: 0.55em;
+		height: 1.1em;
+		margin-left: 0.3em;
+		vertical-align: text-bottom;
+		background: var(--accent);
+		animation: blink 1.1s steps(1) infinite;
+	}
+	@keyframes blink {
+		50% {
+			opacity: 0;
+		}
+	}
+	.hero h1 {
+		font-size: 2.9em;
+		line-height: 1.08;
+		letter-spacing: -0.035em;
+		margin-bottom: 0.5em;
+	}
+	.hero h1 em {
+		font-style: normal;
+		background: linear-gradient(transparent 62%, #bfe7df 62%, #bfe7df 92%, transparent 92%);
+	}
+	.lead {
+		max-width: 31em;
+		background: var(--surface);
+	}
+	.actions {
+		display: flex;
+		gap: 0.6em;
+		margin-top: 1.75em;
+	}
+
+	/* Event-stream window (dark, terminal-like) */
+	.window {
+		border-radius: 10px;
+		background: var(--dark);
+		color: #c9cfd8;
+		font-family: var(--font-mono);
+		font-size: 0.78em;
+		box-shadow: 8px 8px 0 #cfe9e3;
+		overflow: hidden;
+	}
+	.window-bar {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 0.75em 1em;
+		border-bottom: 1px solid #262a31;
+	}
+	.window-bar span {
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		background: #3a3f48;
+	}
+	.window-bar code {
+		margin-left: auto;
+		padding: 0;
+		border: 0;
+		background: none;
+		font-size: 0.95em;
+		color: #7d8590;
+	}
+	.events {
+		list-style: none;
+		margin: 0;
+		padding: 0.6em 0;
+	}
+	.events li {
+		display: grid;
+		grid-template-columns: 2.5em 9.5em 1fr;
+		gap: 0.5em;
+		padding: 0.4em 1em;
+	}
+	.v {
+		color: #6b727c;
+	}
+	.type {
+		color: #5eead4;
+	}
+	.data {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.events li.next {
+		opacity: 0.4;
+		animation: pulse 2.4s ease-in-out infinite;
+	}
+	@keyframes pulse {
+		50% {
+			opacity: 0.8;
+		}
+	}
+	.projection {
+		padding: 0.8em 1em 1em;
+		border-top: 1px solid #262a31;
+	}
+	.projection .muted {
+		color: #7d8590;
+	}
+	.projection pre {
+		margin: 0.4em 0 0;
+		padding: 0;
+		font-size: 1em;
+		color: #fbbf72;
+		background: none;
+		white-space: pre-wrap;
+	}
+
+	/* Sections */
+	.block {
+		padding-top: 1em;
+	}
+	.block + .block {
+		padding-top: 3.5em;
+	}
+	.block-head {
 		display: flex;
 		justify-content: space-between;
-		gap: 1em;
-		padding: 0.4em 0;
-		border-bottom: 1px solid rgb(var(--gray-light));
+		align-items: baseline;
 	}
-	.date {
-		color: rgb(var(--gray));
-		white-space: nowrap;
+	.all {
+		font-family: var(--font-mono);
+		font-size: 0.8em;
+		text-decoration: none;
+	}
+	.topics {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 0 3em;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.topics li {
+		display: grid;
+		grid-template-columns: 2.5em 1fr;
+		padding: 1.1em 0;
+		border-top: 1px solid var(--line);
+	}
+	.num {
+		font-family: var(--font-mono);
+		font-size: 0.8em;
+		padding-top: 0.15em;
+		color: var(--accent);
+	}
+	.topics h3 {
+		margin: 0 0 0.2em;
+		font-size: 1em;
+	}
+	.topics p {
+		margin: 0;
+		font-size: 0.88em;
+		color: var(--muted);
+	}
+	.posts {
+		margin: 0.5em 0 0;
+		padding: 0;
+	}
+	.muted {
+		color: var(--muted);
+	}
+
+	@media (max-width: 860px) {
+		.hero {
+			grid-template-columns: 1fr;
+			padding: 3em 16px;
+		}
+		.window {
+			margin-right: 8px;
+		}
+	}
+	@media (max-width: 560px) {
+		.hero h1 {
+			font-size: 2.2em;
+		}
+		.events li {
+			grid-template-columns: 2em auto 1fr;
+		}
+		.topics {
+			grid-template-columns: 1fr;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.prompt::after,
+		.events li.next {
+			animation: none;
+		}
 	}
 </style>
